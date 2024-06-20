@@ -1,0 +1,152 @@
+﻿@using Almarchivos_SA.Models
+
+@{
+    @model ResultadoUsuariosYPaginacion
+    ViewData["Title"] = "Lista de Usuarios";
+    var currentPage = ViewBag.CurrentPage ?? 1;
+    var pageSize = ViewBag.PageSize ?? 10;
+    var totalPages = ViewBag.TotalPages ?? 1;
+    var totalRegistros = ViewBag.TotalRegistros ?? 1;
+}
+
+<br />
+<form method="get" action="/Home/Buscador">
+    <label>Buscador por: Nombre de Usuario</label><br />
+    <input type="text" name="filtro" placeholder="Buscar...">
+    <button type="submit">Buscar</button>
+</form>
+
+<br />
+
+<table class="table" style="border-style: solid;">
+    <a style="margin-bottom:2%" href="/Home/AgregarUsuario" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Agregar Usuario
+    </a>
+    <thead>
+        <tr>
+            <th>Id Usuario</th>
+            <th>Nombre de Usuario</th>
+            <th>Fecha de Creación</th>
+            <th>Actualizar</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model != null && Model.Usuarios != null && Model.Usuarios.Count > 0)
+        {
+            @foreach (var usuario in Model.Usuarios)
+            {
+                <tr>
+                    <td>@usuario.Id_Usuario</td>
+                    <td>@usuario.Nombre_Usuario</td>
+                    <td>@usuario.Fecha_Creacion.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                    <td>
+                        <a href="/Home/AgregarUsuario?Id_Usuario=@usuario.Id_Usuario" class="btn btn-primary">Editar</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">No hay datos disponibles en el modelo.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination justify-content-center">
+        @if (currentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="/Home/Index?page=@(currentPage - 1)">Anterior</a>
+            </li>
+        }
+
+        @if (totalPages <= 10)
+        {
+            for (int i = 1; i <= totalPages; i++)
+            {
+                bool isCurrentPage = i == currentPage;
+                string activeClass = isCurrentPage ? "active" : "";
+
+                <li class="page-item @activeClass">
+                    <a class="page-link" href="/Home/Index?page=@i">@i</a>
+                </li>
+            }
+        }
+        else
+        {
+            int startPage;
+            int endPage;
+
+            if (currentPage <= 6)
+            {
+                startPage = 1;
+                endPage = Math.Min(10, totalPages);
+            }
+            else if (currentPage >= totalPages - 5)
+            {
+                startPage = Math.Max(totalPages - 9, 1);
+                endPage = totalPages;
+            }
+            else
+            {
+                startPage = currentPage - 5;
+                endPage = currentPage + 4;
+            }
+
+            if (startPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/Home/Index?page=1">1</a>
+                </li>
+                if (startPage > 2)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                }
+            }
+
+            for (int i = startPage; i <= endPage; i++)
+            {
+                bool isCurrentPage = i == currentPage;
+                string activeClass = isCurrentPage ? "active" : "";
+
+                <li class="page-item @activeClass">
+                    <a class="page-link" href="/Home/Index?page=@i">@i</a>
+                </li>
+            }
+
+            if (endPage < totalPages)
+            {
+                if (endPage < totalPages - 1)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                }
+                <li class="page-item">
+                    <a class="page-link" href="/Home/Index?page=@totalPages">@totalPages</a>
+                </li>
+            }
+        }
+
+        @if (currentPage < totalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" href="/Home/Index?page=@(currentPage + 1)">Siguiente</a>
+            </li>
+        }
+    </ul>
+</nav>
+
+<div class="pagination-info text-center">
+    Página @currentPage de @totalPages
+</div>
+<br />
+<div class="pagination-info text-center">
+    Total de registros: @totalRegistros
+</div>

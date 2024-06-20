@@ -1,0 +1,57 @@
+﻿@using Almarchivos_SA.Models
+
+@{
+    @model Persona
+    ViewData["Title"] = "Agregar Persona";
+
+    var formAction = Model != null && Model.Id_Persona != 0 ? "/Home/ActualizarPersona" : "/Home/GuardarPersona";
+}
+
+<h2>Editar Persona</h2>
+
+<form method="post" action="@formAction">
+    <div class="form-group">
+        @if (Model != null && Model.Id_Persona != 0)
+        {
+            <label for="Id_Persona">Id_Persona</label>
+            <input type="text" class="form-control" id="Id_Persona" name="Id_Persona" value="@Model.Id_Persona" readonly>
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="nombres">Nombres</label>
+        <input type="text" class="form-control" id="nombres" name="Nombres" value="@Model?.Nombres" required>
+    </div>
+    <div class="form-group">
+        <label for="apellidos">Apellidos</label>
+        <input type="text" class="form-control" id="apellidos" name="Apellidos" value="@Model?.Apellidos" required>
+    </div>
+    <div class="form-group">
+        <label for="numeroIdentificacion">Número de Identificación</label>
+        <input type="text" class="form-control" id="numeroIdentificacion" name="Numero_Identificacion" value="@Model?.Numero_Identificacion" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="Email" value="@Model?.Email" required>
+    </div>
+    <div class="form-group">
+        <label for="tipoIdentificacion">Tipo de Identificación</label>
+        <select class="form-control" id="tipoIdentificacion" name="Tipo_Identificacion" required>
+            <option value="">Selecciona un tipo de identificación</option>
+            <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+            <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+            <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+            <option value="Registro Civil">Registro Civil</option>
+        </select>
+    </div>
+
+
+    @if (Model != null && Model.Id_Persona != 0)
+    {
+        <button style="margin-top:2%" type="submit" class="btn btn-primary">Actualizar</button>
+    }
+    else
+    {
+        <button style="margin-top:2%" type="submit" class="btn btn-primary">Guardar</button>
+    }
+</form>
