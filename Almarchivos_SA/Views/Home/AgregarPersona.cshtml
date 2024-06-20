@@ -2,12 +2,12 @@
 
 @{
     @model Persona
-    ViewData["Title"] = "Agregar Persona";
+    ViewData["Title"] = "Agregar Persona/Editar Persona";
 
     var formAction = Model != null && Model.Id_Persona != 0 ? "/Home/ActualizarPersona" : "/Home/GuardarPersona";
 }
 
-<h2>Editar Persona</h2>
+<h2>@ViewData["Title"]</h2>
 
 <form method="post" action="@formAction">
     <div class="form-group">

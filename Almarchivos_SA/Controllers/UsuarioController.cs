@@ -15,12 +15,34 @@ namespace Almarchivos_SA.Controllers
 
         public IActionResult Index(int page = 1, int pageSize = 10, string filtro = "")
         {
-            ResultadoUsuariosYPaginacion personas = _consulta.GetUsuariosCompleta(page, pageSize, filtro);
-            Paginacion(personas.Paginacion);
+            ResultadoUsuariosYPaginacion usuarios = _consulta.GetUsuariosCompleta(page, pageSize, filtro);
+            Paginacion(usuarios.Paginacion);
 
-            return View(personas);
+            return View(usuarios);
         }
-
+        public IActionResult AgregarUsuario(int Id_Usuario)
+        {
+            Usuario usuario = _consulta.CargarUsuario(Id_Usuario);
+            return View(usuario);
+        }
+        [HttpPost]
+        public IActionResult ActualizarUsuario(Usuario usuario)
+        {
+            _consulta.ActualizarUsuario(usuario);
+            Index();
+            return View("Index");
+        }
+        [HttpPost]
+        public IActionResult GuardarUsuario(Usuario usuario)
+        {
+            _consulta.GuardarUsuario(usuario);
+            Index();
+            return View("Index");
+        }
+        public IActionResult Buscador(string filtro)
+        {
+            return RedirectToAction("Index", new { filtro = filtro });
+        }
         public void Paginacion(Paginacion paginacion)
         {
             ViewBag.CurrentPage = paginacion.CurrentPage;

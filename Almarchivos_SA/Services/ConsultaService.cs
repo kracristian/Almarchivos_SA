@@ -2,6 +2,7 @@
 using Almarchivos_SA.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace Almarchivos_SA.Services
 {
@@ -25,7 +26,6 @@ namespace Almarchivos_SA.Services
         {
             return _miConexion.Personas.ToList();
         }
-
         public ResultadoPersonasYPaginacion GetPersonasCompleta(int page = 1, int pageSize = 10, string filtro = "")
         {
             try
@@ -176,6 +176,67 @@ namespace Almarchivos_SA.Services
                 throw new ApplicationException("Error al actualizar la persona.", ex);
             }
         }
+        public Usuario CargarUsuario(int idUsuario)
+        {
+            try
+            {
+                var usuario = _miConexion.Usuarios.FirstOrDefault(u => u.Id_Usuario == idUsuario);
+
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones, logueo, etc.
+                throw new ApplicationException("Error al cargar el usuario.", ex);
+            }
+        }
+        public void GuardarUsuario(Usuario usuario)
+        {
+            try
+            {
+                usuario.Fecha_Creacion = DateTime.Now; // Asignar la fecha de creación
+                usuario.Contraseña = Convert.ToBase64String(Encoding.UTF8.GetBytes(usuario.Contraseña));
+
+                _miConexion.Usuarios.Add(usuario); // Agregar el usuario al contexto
+                _miConexion.SaveChanges(); // Guardar cambios en la base de datos
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones, logueo, etc.
+                throw new ApplicationException("Error al guardar el usuario.", ex);
+            }
+        }
+        public void ActualizarUsuario(Usuario usuario)
+        {
+            try
+            {
+                var usuarioExistente = _miConexion.Usuarios.Find(usuario.Id_Usuario); // Buscar el usuario por su Id_Usuario
+
+                if (usuarioExistente != null)
+                {
+                    // Actualizar los campos del usuario existente
+                    usuarioExistente.Nombre_Usuario = usuario.Nombre_Usuario;
+
+                    // Encriptar la nueva contraseña en Base64 si se proporcionó una nueva contraseña
+                    if (!string.IsNullOrEmpty(usuario.Contraseña))
+                    {
+                        usuarioExistente.Contraseña = Convert.ToBase64String(Encoding.UTF8.GetBytes(usuario.Contraseña));
+                    }
+
+                    _miConexion.SaveChanges(); // Guardar cambios en la base de datos
+                }
+                else
+                {
+                    throw new ApplicationException("El usuario no fue encontrado.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones, logueo, etc.
+                throw new ApplicationException("Error al actualizar el usuario.", ex);
+            }
+        }
+
         public Paginacion Paginacion(int pageSize = 10, int totalRecords = 0, int page = 0)
         {
             int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);

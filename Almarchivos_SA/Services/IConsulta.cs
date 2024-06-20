@@ -10,8 +10,10 @@ namespace Almarchivos_SA.Services
         ResultadoPersonasYPaginacion GetPersonasCompleta(int page = 1, int pageSize = 10, string filtro = "");
         ResultadoUsuariosYPaginacion GetUsuariosCompleta(int page = 1, int pageSize = 10, string filtro = "");
         Persona CargarPersona(int idPersona);
-
         void GuardarPersona(Persona persona);
         void ActualizarPersona(Persona persona);
+        Usuario CargarUsuario(int idUsuario);
+        void GuardarUsuario(Usuario usuario);
+        void ActualizarUsuario(Usuario usuario);
     }
 }

@@ -1,0 +1,84 @@
+﻿@using Almarchivos_SA.Models
+
+@model Usuario
+@{
+    ViewData["Title"] = "Editar Usuario/Agregar Usuario";
+    var formAction = Model != null && Model.Id_Usuario != 0 ? "/Usuario/ActualizarUsuario" : "/Usuario/GuardarUsuario";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form id="usuarioForm" method="post" action="@formAction">
+    <div class="form-group">
+        @if (Model != null && Model.Id_Usuario != 0)
+        {
+            <label for="Id_Usuario">Id Usuario</label>
+            <input type="text" class="form-control" id="Id_Usuario" name="Id_Usuario" value="@Model?.Id_Usuario" readonly>
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="NombreUsuario">Nombre de Usuario</label>
+        <input type="text" class="form-control" id="NombreUsuario" name="Nombre_Usuario" value="@Model?.Nombre_Usuario" required>
+    </div>
+
+    @if (Model != null && Model.Id_Usuario != 0)
+    {
+        <div class="form-group">
+            <label for="Contraseña">Nueva Contraseña</label>
+            <input type="password" class="form-control" id="Contraseña" name="Contraseña" value="">
+        </div>
+
+        <div class="form-group">
+            <label for="RepetirContraseña">Repetir Nueva Contraseña</label>
+            <input type="password" class="form-control" id="RepetirContraseña" name="RepetirContraseña" value="">
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <label for="Contraseña">Contraseña</label>
+            <input type="password" class="form-control" id="Contraseña" name="Contraseña" value="" required>
+        </div>
+    }
+
+    <div class="form-group">
+        <button style="margin-top:2%" type="submit" class="btn btn-primary">
+            @if (Model != null && Model.Id_Usuario != 0)
+            {
+                <span>Actualizar</span>
+            }
+            else
+            {
+                <span>Guardar</span>
+            }
+        </button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var idUsuario = @((Model != null && Model.Id_Usuario != null) ? Model.Id_Usuario : 0);
+
+            if (idUsuario && idUsuario !== 0) {
+                $('#Contraseña').removeAttr('required');
+                $('#RepetirContraseña').removeAttr('required');
+            }
+
+            $('#usuarioForm').submit(function () {
+                if (idUsuario && idUsuario !== 0) {
+                    var contraseña = $('#Contraseña').val();
+                    var repetirContraseña = $('#RepetirContraseña').val();
+
+                    if (contraseña !== repetirContraseña) {
+                        alert('Las contraseñas no coinciden');
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+        });
+    </script>
+}

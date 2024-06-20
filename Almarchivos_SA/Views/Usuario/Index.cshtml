@@ -10,7 +10,7 @@
 }
 
 <br />
-<form method="get" action="/Home/Buscador">
+<form method="get" action="/Usuario/Buscador">
     <label>Buscador por: Nombre de Usuario</label><br />
     <input type="text" name="filtro" placeholder="Buscar...">
     <button type="submit">Buscar</button>
@@ -19,7 +19,7 @@
 <br />
 
 <table class="table" style="border-style: solid;">
-    <a style="margin-bottom:2%" href="/Home/AgregarUsuario" class="btn btn-primary">
+    <a style="margin-bottom:2%" href="/Usuario/AgregarUsuario" class="btn btn-primary">
         <i class="fas fa-plus"></i> Agregar Usuario
     </a>
     <thead>
@@ -41,7 +41,7 @@
                     <td>@usuario.Nombre_Usuario</td>
                     <td>@usuario.Fecha_Creacion.ToString("dd/MM/yyyy HH:mm:ss")</td>
                     <td>
-                        <a href="/Home/AgregarUsuario?Id_Usuario=@usuario.Id_Usuario" class="btn btn-primary">Editar</a>
+                        <a href="/Usuario/AgregarUsuario?Id_Usuario=@usuario.Id_Usuario" class="btn btn-primary">Editar</a>
                     </td>
                 </tr>
             }
@@ -60,7 +60,7 @@
         @if (currentPage > 1)
         {
             <li class="page-item">
-                <a class="page-link" href="/Home/Index?page=@(currentPage - 1)">Anterior</a>
+                <a class="page-link" href="/Usuario/Index?page=@(currentPage - 1)">Anterior</a>
             </li>
         }
 
@@ -72,7 +72,7 @@
                 string activeClass = isCurrentPage ? "active" : "";
 
                 <li class="page-item @activeClass">
-                    <a class="page-link" href="/Home/Index?page=@i">@i</a>
+                    <a class="page-link" href="/Usuario/Index?page=@i">@i</a>
                 </li>
             }
         }
@@ -100,7 +100,7 @@
             if (startPage > 1)
             {
                 <li class="page-item">
-                    <a class="page-link" href="/Home/Index?page=1">1</a>
+                    <a class="page-link" href="/Usuario/Index?page=1">1</a>
                 </li>
                 if (startPage > 2)
                 {
@@ -116,7 +116,7 @@
                 string activeClass = isCurrentPage ? "active" : "";
 
                 <li class="page-item @activeClass">
-                    <a class="page-link" href="/Home/Index?page=@i">@i</a>
+                    <a class="page-link" href="/Usuario/Index?page=@i">@i</a>
                 </li>
             }
 
@@ -129,7 +129,7 @@
                     </li>
                 }
                 <li class="page-item">
-                    <a class="page-link" href="/Home/Index?page=@totalPages">@totalPages</a>
+                    <a class="page-link" href="/Usuario/Index?page=@totalPages">@totalPages</a>
                 </li>
             }
         }
@@ -137,7 +137,7 @@
         @if (currentPage < totalPages)
         {
             <li class="page-item">
-                <a class="page-link" href="/Home/Index?page=@(currentPage + 1)">Siguiente</a>
+                <a class="page-link" href="/Usuario/Index?page=@(currentPage + 1)">Siguiente</a>
             </li>
         }
     </ul>

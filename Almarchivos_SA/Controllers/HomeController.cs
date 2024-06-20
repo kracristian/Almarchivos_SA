@@ -23,13 +23,11 @@ namespace Almarchivos_SA.Controllers
 
             return View(personas);
         }
-
         public IActionResult AgregarPersona(int Id_Persona)
         {
             Persona persona = _consulta.CargarPersona(Id_Persona);
             return View(persona);
         }
-
         [HttpPost]
         public IActionResult ActualizarPersona(Persona persona)
         {
@@ -37,7 +35,6 @@ namespace Almarchivos_SA.Controllers
             Index();
             return View("Index");
         }
-
         [HttpPost]
         public IActionResult GuardarPersona(Persona persona)
         {
