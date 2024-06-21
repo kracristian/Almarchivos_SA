@@ -1,5 +1,6 @@
 ﻿using Almarchivos_SA.Models;
 using Almarchivos_SA.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Almarchivos_SA.Controllers
@@ -12,7 +13,7 @@ namespace Almarchivos_SA.Controllers
         {
             _consulta = consulta;
         }
-
+        [Authorize]
         public IActionResult Index(int page = 1, int pageSize = 10, string filtro = "")
         {
             ResultadoUsuariosYPaginacion usuarios = _consulta.GetUsuariosCompleta(page, pageSize, filtro);
@@ -20,6 +21,7 @@ namespace Almarchivos_SA.Controllers
 
             return View(usuarios);
         }
+        [Authorize]
         public IActionResult AgregarUsuario(int Id_Usuario)
         {
             Usuario usuario = _consulta.CargarUsuario(Id_Usuario);

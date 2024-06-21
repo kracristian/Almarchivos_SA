@@ -1,5 +1,6 @@
 using Almarchivos_SA.Models;
 using Almarchivos_SA.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,6 +16,7 @@ namespace Almarchivos_SA.Controllers
             _consulta = consulta;
         }
 
+        [Authorize]
         public IActionResult Index(int page = 1, int pageSize = 10, string filtro = "")
         {
             //List<Usuario> usuarios = _consulta.GetUsuarios();
@@ -23,6 +25,7 @@ namespace Almarchivos_SA.Controllers
 
             return View(personas);
         }
+        [Authorize]
         public IActionResult AgregarPersona(int Id_Persona)
         {
             Persona persona = _consulta.CargarPersona(Id_Persona);
@@ -52,6 +55,10 @@ namespace Almarchivos_SA.Controllers
             ViewBag.PageSize = paginacion.PageSize;
             ViewBag.TotalPages = paginacion.TotalPages;
             ViewBag.TotalRegistros = paginacion.TotalRegistros;
+        }
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

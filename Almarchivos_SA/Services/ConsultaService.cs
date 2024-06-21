@@ -236,7 +236,6 @@ namespace Almarchivos_SA.Services
                 throw new ApplicationException("Error al actualizar el usuario.", ex);
             }
         }
-
         public Paginacion Paginacion(int pageSize = 10, int totalRecords = 0, int page = 0)
         {
             int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
@@ -255,5 +254,10 @@ namespace Almarchivos_SA.Services
 
             return paginacion;
         }
+
+
+
+
+
     }
 }

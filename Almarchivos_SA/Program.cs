@@ -1,6 +1,8 @@
 using Almarchivos_SA.Data;
 using Almarchivos_SA.Services;
 using Microsoft.EntityFrameworkCore;
+// Librería para realizar la autentificación
+using Microsoft.AspNetCore.Authentication.Cookies; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,15 @@ builder.Services.AddDbContext<Connection>(options =>
 //Definiendo los servicios que se usaran dentro del proyecto.
 builder.Services.AddScoped<IConsulta, ConsultaService>();
 
+// Configuración de la autenticación por cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "Almarchivo_SA.Cookie"; // Nombre de la cookie de sesión
+        options.LoginPath = "/Login/Login"; // Ruta de la página de inicio de sesión
+        options.AccessDeniedPath = "/Home/AccessDenied"; // Ruta de acceso denegado
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,10 +48,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Middleware de autenticación y autorización
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Login}/{id?}");
 
 app.Run();
