@@ -12,8 +12,10 @@ namespace Almarchivos_SA.Services
         Persona CargarPersona(int idPersona);
         void GuardarPersona(Persona persona);
         void ActualizarPersona(Persona persona);
+        void EliminarPersona(int id);
         Usuario CargarUsuario(int idUsuario);
         void GuardarUsuario(Usuario usuario);
         void ActualizarUsuario(Usuario usuario);
+        void EliminarUsuario(int idUsuario);
     }
 }

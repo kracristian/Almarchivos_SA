@@ -33,6 +33,7 @@
             <th>Tipo Identificación</th>
             <th>Fecha Creación</th>
             <th>Actualizar</th>
+            <th>Eliminar</th>
         </tr>
     </thead>
     <tbody>
@@ -52,6 +53,10 @@
                     <td>
                         <a href="/Home/AgregarPersona?Id_Persona=@persona.Id_Persona" class="btn btn-primary">Editar</a>
                     </td>
+                    <td>
+                        <a href="#" onclick="confirmarEliminar(@persona.Id_Persona)" class="btn btn-primary">Eliminar</a>
+                    </td>
+
                 </tr>
             }
         }
@@ -159,3 +164,11 @@
 <div class="pagination-info text-center">
     Total de registros: @TotalRegistros
 </div>
+
+<script>
+    function confirmarEliminar(idPersona) {
+        if (confirm('¿Estás seguro de que deseas eliminar esta persona?')) {
+            window.location.href = '/Home/EliminarPersona?Id_Persona=' + idPersona;
+        } 
+    }
+</script>

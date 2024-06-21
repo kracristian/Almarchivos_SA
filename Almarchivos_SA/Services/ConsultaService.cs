@@ -176,6 +176,33 @@ namespace Almarchivos_SA.Services
                 throw new ApplicationException("Error al actualizar la persona.", ex);
             }
         }
+
+        public void EliminarPersona(int id)
+        {
+            try
+            {
+                // Buscar la persona por su ID
+                var persona = _miConexion.Personas.FirstOrDefault(p => p.Id_Persona == id);
+
+                if (persona != null)
+                {
+                    // Remover la persona del contexto y guardar los cambios
+                    _miConexion.Personas.Remove(persona);
+                    _miConexion.SaveChanges();
+                }
+                else
+                {
+                    throw new ApplicationException($"No se encontró la persona con ID: {id}");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones, logueo, etc.
+                throw new ApplicationException("Error al eliminar la persona.", ex);
+            }
+        }
+
+
         public Usuario CargarUsuario(int idUsuario)
         {
             try
@@ -234,6 +261,20 @@ namespace Almarchivos_SA.Services
             {
                 // Manejo de excepciones, logueo, etc.
                 throw new ApplicationException("Error al actualizar el usuario.", ex);
+            }
+        }
+
+        public void EliminarUsuario(int idUsuario)
+        {
+            var usuario = _miConexion.Usuarios.FirstOrDefault(u => u.Id_Usuario == idUsuario);
+            if (usuario != null)
+            {
+                _miConexion.Usuarios.Remove(usuario);
+                _miConexion.SaveChanges();
+            }
+            else
+            {
+                throw new ApplicationException($"No se encontró el usuario con ID {idUsuario}");
             }
         }
         public Paginacion Paginacion(int pageSize = 10, int totalRecords = 0, int page = 0)

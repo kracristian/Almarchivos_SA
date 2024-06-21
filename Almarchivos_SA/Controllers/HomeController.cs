@@ -19,7 +19,6 @@ namespace Almarchivos_SA.Controllers
         [Authorize]
         public IActionResult Index(int page = 1, int pageSize = 10, string filtro = "")
         {
-            //List<Usuario> usuarios = _consulta.GetUsuarios();
             ResultadoPersonasYPaginacion personas = _consulta.GetPersonasCompleta(page, pageSize, filtro);
             Paginacion(personas.Paginacion);
 
@@ -45,6 +44,14 @@ namespace Almarchivos_SA.Controllers
             Index();
             return View("Index");
         }
+        public IActionResult EliminarPersona(int Id_Persona)
+        {
+            _consulta.EliminarPersona(Id_Persona);
+            Index();
+            return View("Index");
+        }
+
+
         public IActionResult Buscador(string filtrarPor)
         {
             return RedirectToAction("Index", new { filtro = filtrarPor });

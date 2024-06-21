@@ -34,6 +34,14 @@ namespace Almarchivos_SA.Controllers
             Index();
             return View("Index");
         }
+
+        public IActionResult EliminarUsuario(int Id_Usuario)
+        {
+            _consulta.EliminarUsuario(Id_Usuario);
+            Index();
+            return View("Index");
+        }
+
         [HttpPost]
         public IActionResult GuardarUsuario(Usuario usuario)
         {

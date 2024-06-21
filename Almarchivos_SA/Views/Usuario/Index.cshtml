@@ -43,6 +43,9 @@
                     <td>
                         <a href="/Usuario/AgregarUsuario?Id_Usuario=@usuario.Id_Usuario" class="btn btn-primary">Editar</a>
                     </td>
+                    <td>
+                        <a href="#" onclick="confirmarEliminar(@usuario.Id_Usuario)" class="btn btn-primary">Eliminar</a>
+                    </td>
                 </tr>
             }
         }
@@ -150,3 +153,12 @@
 <div class="pagination-info text-center">
     Total de registros: @totalRegistros
 </div>
+
+<script>
+    function confirmarEliminar(Id_Usuario) {
+        if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+            window.location.href = '/Usuario/EliminarUsuario?Id_Usuario=' + Id_Usuario;
+        } 
+    }
+</script>
+
